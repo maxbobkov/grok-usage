@@ -111,6 +111,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
+        let aboutItem = NSMenuItem(title: "About Grok Usage", action: #selector(onAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+
+        menu.addItem(.separator())
+
         let quitItem = NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         quitItem.target = NSApp
         menu.addItem(quitItem)
@@ -131,6 +137,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func onOpenUsage() {
         if let url = URL(string: "https://grok.com/?_s=usage") {
             NSWorkspace.shared.open(url)
+        }
+    }
+
+    @objc private func onAbout() {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
+        let alert = NSAlert()
+        alert.messageText = "Grok Usage"
+        alert.informativeText = "Unofficial menu bar extra for Grok Build weekly usage.\nVersion \(version)"
+        alert.addButton(withTitle: "GitHub")
+        alert.addButton(withTitle: "OK")
+        if let icon = NSImage(named: "AppIcon") ?? NSImage(contentsOfFile: Bundle.main.path(forResource: "AppIcon", ofType: "icns") ?? "") {
+            alert.icon = icon
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        if alert.runModal() == .alertFirstButtonReturn {
+            if let url = URL(string: "https://github.com/maxbobkov/grok-usage") {
+                NSWorkspace.shared.open(url)
+            }
         }
     }
 
