@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="Resources/AppIcon.png" width="128" height="128" alt="Grok Usage">
-</p>
-
 # Grok Usage
 
 A tiny macOS menu bar extra that shows how much of your **Grok Build weekly limit** is used.
