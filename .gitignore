@@ -1,3 +1,4 @@
 GrokUsage.app
 *.dSYM
 .DS_Store
+Resources/AppIcon.iconset

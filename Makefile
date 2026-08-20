@@ -5,14 +5,15 @@ SOURCES = Sources/AuthStore.swift Sources/BillingClient.swift Sources/GrokUsage.
 LAUNCH_AGENT = $(HOME)/Library/LaunchAgents/com.local.grokusage.plist
 GUI_DOMAIN = gui/$(shell id -u)
 
-.PHONY: build run check install uninstall
+.PHONY: build run check install uninstall icon
 
 build: $(BIN)
 
-$(BIN): $(SOURCES) Info.plist Resources/GrokMark.svg
+$(BIN): $(SOURCES) Info.plist Resources/GrokMark.svg Resources/AppIcon.icns
 	mkdir -p $(APP)/Contents/MacOS $(APP)/Contents/Resources
 	cp Info.plist $(APP)/Contents/Info.plist
 	cp Resources/GrokMark.svg $(APP)/Contents/Resources/GrokMark.svg
+	cp Resources/AppIcon.icns $(APP)/Contents/Resources/AppIcon.icns
 	echo "APPL????" > $(APP)/Contents/PkgInfo
 	swiftc -O -parse-as-library \
 		-strict-concurrency=minimal \
@@ -43,3 +44,6 @@ uninstall:
 	rm -f "$(LAUNCH_AGENT)"
 	killall GrokUsage 2>/dev/null || true
 	rm -rf "$(PREFIX)/$(APP)"
+
+icon:
+	swift scripts/generate-icon.swift
